@@ -1,0 +1,29 @@
+# Logs and config file #
+######################
+*.log
+*.conf
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor directories and files #
+################################
+.idea/
+*.swp
+*.swo
+.vscode/
+*.sublime-workspace
+
+# SSL Certificate files #
+########################
+*.pem
+*.key
+*.cert
+*.crt
