@@ -133,6 +133,7 @@ fi
 # Additional configurations based on server type
 if [ "$server_type" -eq "1" ]; then
     read -p "Enter backend server IPs (comma-separated, e.g., 10.10.10.2,10.10.10.3): " backend_ips
+    read -p "Enter the active port on backend servers (e.g., 80 or 443): " backend_port
 
     echo "Installing and configuring HAProxy..."
     apt install -y haproxy
@@ -172,7 +173,11 @@ EOF
     # Append server entries to the backend configuration
     IFS=',' read -ra ADDR <<< "$backend_ips"
     for ip in "${ADDR[@]}"; do
-        echo "    server app$ip $ip:80 check" >> /etc/haproxy/haproxy.cfg
+        if [ "$backend_port" == "80" ]; then
+            echo "    server app$ip $ip:$backend_port check" >> /etc/haproxy/haproxy.cfg
+        else
+            echo "    server app$ip $ip:$backend_port check ssl verify none" >> /etc/haproxy/haproxy.cfg
+        fi
     done
 
     if [ "$port_choice" == "2" ]; then
